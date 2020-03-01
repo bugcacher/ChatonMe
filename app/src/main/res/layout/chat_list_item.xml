@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:padding="5dp">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@id/chatUserImage"
+    android:layout_marginLeft="20dp"
+    android:textSize="14dp"
+    android:layout_marginTop="10dp"
+    android:id="@+id/chatUserName"
+    android:text="User 1"
+    />
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_person_black_24dp"
+        android:id="@+id/chatUserImage"
+        />
+</RelativeLayout>
