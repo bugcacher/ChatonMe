@@ -7,15 +7,17 @@
     tools:context=".SignUp">
     <EditText
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
         android:id="@+id/signupEmail"
+        android:background="@drawable/custom_textbox"
+        android:layout_height="30dp"
         android:hint="Email"
         android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"
         />
     <EditText
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:background="@drawable/custom_textbox"
+        android:layout_height="30dp"
         android:id="@+id/signupName"
         android:hint="Full Name"
         android:layout_below="@id/signupEmail"
@@ -24,7 +26,8 @@
         />
     <EditText
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:background="@drawable/custom_textbox"
+        android:layout_height="30dp"
         android:id="@+id/signupPhone"
         android:hint="Phone"
         android:inputType="number"
@@ -34,7 +37,10 @@
         />
     <EditText
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:background="@drawable/custom_textbox"
+        android:layout_height="30dp"
+        android:padding="5dp"
+        android:paddingLeft="100dp"
         android:id="@+id/signupPassword"
         android:hint="Password"
         android:inputType="textPassword"
@@ -47,6 +53,7 @@
         android:layout_height="wrap_content"
         android:text="Sign Up"
         android:id="@+id/signUpButton"
+        android:background="@drawable/custombutton"
         android:layout_below="@id/signupPassword"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
@@ -55,6 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign In"
+        android:background="@drawable/custombutton"
         android:id="@+id/signInButton"
         android:layout_below="@id/signin_text"
         android:layout_marginTop="10dp"
@@ -66,7 +74,7 @@
         android:layout_below="@id/signUpButton"
         android:id="@+id/signin_text"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:text="Already have an account sign in below."/>
 
 </RelativeLayout>

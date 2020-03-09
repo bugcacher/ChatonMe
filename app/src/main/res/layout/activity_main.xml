@@ -8,9 +8,11 @@
 
     <EditText
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:id="@+id/loginEmail"
         android:hint="Email"
+        android:background="@drawable/custom_textbox"
+        android:gravity="center"
         android:text="abcd@gmail.com"
         android:layout_marginTop="200dp"
         android:layout_centerHorizontal="true"
@@ -18,9 +20,12 @@
     <EditText
         android:layout_width="300dp"
         android:text="abhinavsingh"
-        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_height="40dp"
         android:id="@+id/loginPassword"
         android:hint="Password"
+        android:padding="3dp"
+        android:background="@drawable/custom_textbox"
         android:layout_below="@id/loginEmail"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
@@ -30,8 +35,9 @@
         android:layout_height="wrap_content"
         android:text="Sign in"
         android:id="@+id/btnlogin"
+        android:background="@drawable/custombutton"
         android:layout_below="@id/loginPassword"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         />
     <TextView
@@ -40,12 +46,13 @@
         android:layout_below="@id/btnlogin"
         android:id="@+id/text"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:text="Don't have an account sign up below."/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign UP"
+        android:background="@drawable/custombutton"
         android:layout_below="@id/text"
         android:id="@+id/btnsignup"
         android:layout_marginTop="10dp"

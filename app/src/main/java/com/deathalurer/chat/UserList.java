@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import com.quickblox.users.model.QBUser;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserList extends AppCompatActivity implements ListUserAdapter.AddUser {
 
@@ -34,6 +37,8 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+
+        getContacts();
 
         recyclerView = findViewById(R.id.listUserRecyclerView);
         addUsers = findViewById(R.id.createChat);
@@ -58,6 +63,26 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
                 }
             }
         });
+    }
+
+    private void getContacts() {
+        ArrayList<String> list;
+        list = new ArrayList<>();
+        ArrayList<String> nameList;
+        nameList = new ArrayList<>();
+        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
+        while (phones.moveToNext())
+        {
+            String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            list.add(phoneNumber);
+            nameList.add(name);
+        }
+        phones.close();
+        for(int i = 0;i<list.size();i++){
+            Log.d("Contacts","Number:"+list.get(i)+"\n");
+        }
+
     }
 
     private void createOneToOneChat() {

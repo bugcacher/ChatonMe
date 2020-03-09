@@ -29,6 +29,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
     implementation 'com.quickblox:quickblox-android-sdk-content:3.3.3@aar'
     implementation('com.quickblox:quickblox-android-sdk-chat:3.3.3@aar') {
         transitive = true
