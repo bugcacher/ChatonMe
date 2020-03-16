@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#28072E"
     android:layout_height="match_parent"
     tools:context=".UserList">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/createChat"
+        android:background="@drawable/custombutton"
         android:layout_gravity="bottom|center"
         android:layout_margin="10dp"
-        android:text="Add"
+        android:text="Message"
         />
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

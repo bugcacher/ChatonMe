@@ -2,12 +2,17 @@ package com.deathalurer.chat.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.deathalurer.chat.ChatActivity;
 import com.deathalurer.chat.CircleTransform;
 import com.deathalurer.chat.R;
+import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -44,8 +52,20 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatListViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ChatListViewHolder holder, final int position) {
         holder.textView.setText(mList.get(position).getName());
+        holder.lastMessage.setText(mList.get(position).getLastMessage());
+        int count = mList.get(position).getUnreadMessageCount();
+        if(count>0)
+        {
+            holder.unreadCount.setVisibility(View.VISIBLE);
+            holder.unreadCount.setText(count+"");
+        }
+        else
+            holder.unreadCount.setVisibility(View.GONE);
+
+
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +75,43 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
                 mcontext.startActivity(intent);
             }
         });
+
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                PopupMenu popupMenu = new PopupMenu(mcontext,holder.layout);
+                MenuInflater menuInflater = popupMenu.getMenuInflater();
+                menuInflater.inflate(R.menu.delete_dialog,popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch (menuItem.getItemId()){
+                            case R.id.deleteDialog:
+                                QBRestChatService.deleteDialog(mList.get(position).getDialogId(),false)
+                                        .performAsync(new QBEntityCallback<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid, Bundle bundle) {
+                                                mList.remove(position);
+                                                notifyDataSetChanged();
+                                                Toast.makeText(mcontext,"Deleted",Toast.LENGTH_SHORT).show();
+                                            }
+                                            @Override
+                                            public void onError(QBResponseException e) {
+
+                                            }
+                                        });
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+                return true;
+            }
+        });
+
+
         //Picasso.get().load(R.drawable.ic_person_black_24dp).transform(new CircleTransform()).into(holder.imageView);
     }
 
@@ -64,7 +121,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     }
 
     public class ChatListViewHolder extends RecyclerView.ViewHolder{
-        private TextView textView;
+        private TextView textView,lastMessage,unreadCount;
         private ImageView imageView;
         private RelativeLayout layout;
 
@@ -73,6 +130,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             textView = itemView.findViewById(R.id.chatUserName);
             imageView = itemView.findViewById(R.id.chatUserImage);
             layout = itemView.findViewById(R.id.layout_all_chat);
+            unreadCount = itemView.findViewById(R.id.unreadCount);
+            lastMessage = itemView.findViewById(R.id.lastMessage);
         }
     }
 }

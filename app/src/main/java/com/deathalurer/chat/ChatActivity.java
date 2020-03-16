@@ -1,6 +1,7 @@
 package com.deathalurer.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,8 @@ public class ChatActivity extends AppCompatActivity implements QBChatDialogMessa
     EditText content;
     QBChatDialog chatDialog;
     QBChatMessage message;
+    TextView friendName;
+    ImageView back,isOnline;
 
 
     @Override
@@ -49,6 +52,18 @@ public class ChatActivity extends AppCompatActivity implements QBChatDialogMessa
         content = findViewById(R.id.messageTypeTextView);
         recyclerView = findViewById(R.id.recyclerViewMessageList);
 
+        Toolbar toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
+
+        friendName = findViewById(R.id.toolbarName);
+        isOnline = findViewById(R.id.toolBarOnline);
+        back = findViewById(R.id.toolbarBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         initChatDialog();
 
@@ -57,6 +72,7 @@ public class ChatActivity extends AppCompatActivity implements QBChatDialogMessa
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 message = new QBChatMessage();
                 message.setBody(content.getText().toString());
                 message.setSenderId(QBChatService.getInstance().getUser().getId());
@@ -100,11 +116,13 @@ public class ChatActivity extends AppCompatActivity implements QBChatDialogMessa
         builder.setLimit(300);
 
         if(chatDialog!=null){
+            friendName.setText(chatDialog.getName());
 
             QBRestChatService.getDialogMessages(chatDialog,builder)
                     .performAsync(new QBEntityCallback<ArrayList<QBChatMessage>>() {
                         @Override
                         public void onSuccess(ArrayList<QBChatMessage> qbChatMessages, Bundle bundle) {
+
                             QBChatHolder.getInstance().putMessages(chatDialog.getDialogId(),qbChatMessages);
                             QBChatListAdapter adapter = new QBChatListAdapter(getBaseContext(),qbChatMessages);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
@@ -124,7 +142,6 @@ public class ChatActivity extends AppCompatActivity implements QBChatDialogMessa
     private void initChatDialog() {
         chatDialog = (QBChatDialog) getIntent().getSerializableExtra("QBDialog");
         chatDialog.initForChat(QBChatService.getInstance());
-
 
         //registering listener
 

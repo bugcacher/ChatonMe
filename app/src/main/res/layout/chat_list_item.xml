@@ -8,15 +8,38 @@
     android:layout_height="wrap_content"
     android:layout_toRightOf="@id/chatUserImage"
     android:layout_marginLeft="20dp"
+    android:textColor="#FFF"
     android:textSize="14dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="5dp"
     android:id="@+id/chatUserName"
     android:text="User 1"
     />
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_person_black_24dp"
+        android:src="@drawable/boy_three"
         android:id="@+id/chatUserImage"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="14dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/chatUserName"
+        android:text="last message"
+        android:layout_toRightOf="@id/chatUserImage"
+        android:id="@+id/lastMessage"
+        />
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="2"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/unread_round"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/unreadCount"/>
 </RelativeLayout>

@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#28072E"
     android:layout_height="match_parent"
     tools:context=".SignUp">
     <EditText
         android:layout_width="300dp"
         android:id="@+id/signupEmail"
+        android:paddingLeft="20dp"
         android:background="@drawable/custom_textbox"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:hint="Email"
         android:layout_marginTop="100dp"
         android:layout_centerHorizontal="true"
@@ -17,35 +19,37 @@
     <EditText
         android:layout_width="300dp"
         android:background="@drawable/custom_textbox"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:id="@+id/signupName"
         android:hint="Full Name"
+        android:paddingLeft="20dp"
         android:layout_below="@id/signupEmail"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         />
     <EditText
         android:layout_width="300dp"
         android:background="@drawable/custom_textbox"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:id="@+id/signupPhone"
         android:hint="Phone"
         android:inputType="number"
+        android:paddingLeft="20dp"
         android:layout_below="@id/signupName"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         />
     <EditText
         android:layout_width="300dp"
         android:background="@drawable/custom_textbox"
-        android:layout_height="30dp"
-        android:padding="5dp"
-        android:paddingLeft="100dp"
+        android:layout_height="40dp"
+        android:paddingLeft="20dp"
+
         android:id="@+id/signupPassword"
         android:hint="Password"
         android:inputType="textPassword"
         android:layout_below="@id/signupPhone"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         />
     <Button
@@ -55,7 +59,7 @@
         android:id="@+id/signUpButton"
         android:background="@drawable/custombutton"
         android:layout_below="@id/signupPassword"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         />
     <Button
@@ -65,7 +69,7 @@
         android:background="@drawable/custombutton"
         android:id="@+id/signInButton"
         android:layout_below="@id/signin_text"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         />
     <TextView

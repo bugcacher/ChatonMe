@@ -44,6 +44,7 @@ public class AllChats extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatListAdapter adapter;
     private FloatingActionButton floatingActionButton;
+    CustomDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +98,7 @@ public class AllChats extends AppCompatActivity {
             @Override
             public void onSuccess(ArrayList<QBChatDialog> qbChatDialogs, Bundle bundle) {
                 for(int i =0 ; i<qbChatDialogs.size();i++){
-                    Log.d("______","name"+qbChatDialogs.get(i).getName()+"\n");
-
+                    Log.d("AllChats","name"+qbChatDialogs.get(i).getName()+"\n");
                 }
                 recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
                 adapter = new ChatListAdapter(qbChatDialogs,getBaseContext());
@@ -115,10 +115,8 @@ public class AllChats extends AppCompatActivity {
     }
 
     private void createSession() {
-        final ProgressDialog dialog = new ProgressDialog(AllChats.this);
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+        dialog = new CustomDialog(AllChats.this);
+        dialog.showDialog();
 
         String email = getIntent().getStringExtra("email");
         String pass = getIntent().getStringExtra("pass");
@@ -148,18 +146,19 @@ public class AllChats extends AppCompatActivity {
                 QBChatService.getInstance().login(user, new QBEntityCallback() {
                     @Override
                     public void onSuccess(Object o, Bundle bundle) {
-                        dialog.dismiss();
+                        dialog.hideDialog();
                     }
                     @Override
                     public void onError(QBResponseException e) {
                         Toast.makeText(getBaseContext(),"Error :"+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        dialog.hideDialog();
                     }
                 });
             }
 
             @Override
             public void onError(QBResponseException e) {
-
+                    dialog.hideDialog();
             }
         });
     }
