@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
     private Button addUsers;
     private ArrayList<FriendList> userSelectedList = new ArrayList<>();
     ArrayList<String> phoneNumbers;
-    private String groupName;
+    private String groupName="";
     private static final String TAG ="UserList";
 
     @Override
@@ -67,8 +68,7 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
                 }
                 else if(count>1)
                 {
-                    //openCreateGroupDialog();
-                    createGroupChat();
+                    openCreateGroupDialog();
                 }
                 else
                 {
@@ -79,8 +79,9 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
     }
 
     private void openCreateGroupDialog() {
+        Log.d(TAG,"on create group dialog");
         CreateGroupDialog groupDialog = new CreateGroupDialog();
-        groupDialog.show(getSupportFragmentManager(),"Create Dialog");
+        groupDialog.show(getSupportFragmentManager(),"Dialog");
     }
 
     private void requestPermission() {
@@ -202,6 +203,8 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
     }
 
     private void createGroupChat() {
+        Log.d(TAG,"groupName : " + groupName);
+        //openCreateGroupDialog();
         final CustomDialog dialog = new CustomDialog(UserList.this);
         dialog.showDialog();
         ArrayList<Integer> usersIdList = new ArrayList<>();
@@ -210,8 +213,8 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
             usersIdList.add(user.getUser().getId());
         }
         QBChatDialog chatDialog = new QBChatDialog();
-        chatDialog.setName("Group: "+userSelectedList.get(0).getUser().getFullName()+","
-              +userSelectedList.get(1).getUser().getFullName());
+        //chatDialog.setName("Group: "+userSelectedList.get(0).getUser().getFullName()+","
+         //     +userSelectedList.get(1).getUser().getFullName());
         chatDialog.setOccupantsIds(usersIdList);
         chatDialog.setName(groupName);
         chatDialog.setType(QBDialogType.GROUP);
@@ -299,5 +302,6 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
     public void sendGroupName(String name) {
         groupName = name;
         Log.d(TAG, "sendGroupName: "+name);
+        createGroupChat();
     }
 }

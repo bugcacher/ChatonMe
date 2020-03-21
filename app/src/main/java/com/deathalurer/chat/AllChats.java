@@ -99,6 +99,7 @@ public class AllChats extends AppCompatActivity {
             public void onSuccess(ArrayList<QBChatDialog> qbChatDialogs, Bundle bundle) {
                 for(int i =0 ; i<qbChatDialogs.size();i++){
                     Log.d("AllChats","name"+qbChatDialogs.get(i).getName()+"\n");
+
                 }
                 recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
                 adapter = new ChatListAdapter(qbChatDialogs,getBaseContext());

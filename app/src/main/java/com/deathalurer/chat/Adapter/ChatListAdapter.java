@@ -3,6 +3,7 @@ package com.deathalurer.chat.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,13 +18,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.deathalurer.chat.AllChats;
 import com.deathalurer.chat.ChatActivity;
 import com.deathalurer.chat.CircleTransform;
+import com.deathalurer.chat.Profile;
 import com.deathalurer.chat.R;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.content.QBContent;
+import com.quickblox.content.model.QBFile;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.users.QBUsers;
+import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -63,14 +72,45 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         }
         else
             holder.unreadCount.setVisibility(View.GONE);
+        //to load friend image
+        int friendId = mList.get(position).getRecipientId();
+        QBUsers.getUser(friendId).performAsync(new QBEntityCallback<QBUser>() {
+            @Override
+            public void onSuccess(QBUser qbUser, Bundle bundle) {
+                if(qbUser.getFileId()!=null){
+                    int profileID = qbUser.getFileId();
+                    QBContent.getFile(profileID).performAsync(new QBEntityCallback<QBFile>() {
+                        @Override
+                        public void onSuccess(QBFile qbFile, Bundle bundle) {
+                            String url = qbFile.getPublicUrl();
+                            Glide.with(mcontext).load(url).apply(RequestOptions.circleCropTransform()).into(holder.userImage);
+                        }
 
+                        @Override
+                        public void onError(QBResponseException e) {
+                            holder.userImage.setImageResource(R.drawable.ic_person_black_24dp);
+                        }
+                    });
+                }
+                else {
+                    holder.userImage.setImageResource(R.drawable.ic_person_black_24dp);
+                }
+            }
 
+            @Override
+            public void onError(QBResponseException e) {
+                holder.userImage.setImageResource(R.drawable.ic_person_black_24dp);
+            }
+        });
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mcontext, ChatActivity.class);
                 intent.putExtra("QBDialog",mList.get(position));
+                Log.d("_______", "onClick: "+ mList.get(position).getUserId()+
+                        mList.get(position).getName() + mList.get(position).getRecipientId()
+                +mList.get(position).getName());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mcontext.startActivity(intent);
             }
@@ -122,13 +162,13 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     public class ChatListViewHolder extends RecyclerView.ViewHolder{
         private TextView textView,lastMessage,unreadCount;
-        private ImageView imageView;
+        private ImageView userImage;
         private RelativeLayout layout;
 
         public ChatListViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.chatUserName);
-            imageView = itemView.findViewById(R.id.chatUserImage);
+            userImage = itemView.findViewById(R.id.chatUserImage);
             layout = itemView.findViewById(R.id.layout_all_chat);
             unreadCount = itemView.findViewById(R.id.unreadCount);
             lastMessage = itemView.findViewById(R.id.lastMessage);
