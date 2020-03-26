@@ -6,27 +6,70 @@
     android:background="#28072E"
     android:layout_height="match_parent"
     tools:context=".SignIn">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_person_black_24dp"
+        android:layout_toLeftOf="@id/btnlogin"
+        android:layout_marginRight="70dp"
+        android:id="@+id/personIcon"
+        android:layout_below="@id/imageIcon"
+        android:layout_marginTop="48dp"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="#5E0A27"
+        android:layout_below="@id/imageIcon"
+        android:layout_marginRight="62dp"
+        android:layout_marginTop="45dp"
+        android:layout_toLeftOf="@id/btnlogin"/>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="#5E0A27"
+        android:layout_below="@id/loginEmail"
+        android:layout_marginRight="62dp"
+        android:layout_marginTop="15dp"
+        android:layout_toLeftOf="@id/btnlogin"/>
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="80dp"
+        android:src="@drawable/send_icon"
+        android:id="@+id/imageIcon"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_lock_black_24dp"
+        android:layout_toLeftOf="@id/btnlogin"
+        android:layout_marginRight="70dp"
+        android:id="@+id/passIcon"
+        android:layout_below="@id/loginEmail"
+        android:layout_marginTop="17dp"/>
+
 
     <EditText
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:id="@+id/loginEmail"
-        android:hint="Email"
+        android:hint="Username"
         android:textColor="#FFF"
         android:background="@drawable/custom_textbox"
-        android:paddingLeft="20dp"
-        android:text="abcd@gmail.com"
-        android:layout_marginTop="100dp"
+        android:paddingLeft="50dp"
+        android:layout_below="@id/imageIcon"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         />
     <EditText
         android:layout_width="300dp"
-        android:text="abhinavsingh"
-        android:paddingLeft="20dp"
+        android:paddingLeft="55dp"
         android:layout_height="40dp"
         android:id="@+id/loginPassword"
         android:textColor="#FFF"
         android:hint="Password"
+        android:inputType="textPassword"
         android:background="@drawable/custom_textbox"
         android:layout_below="@id/loginEmail"
         android:layout_marginTop="10dp"
@@ -40,7 +83,7 @@
         android:textColor="#FFF"
         android:background="@drawable/custombutton"
         android:layout_below="@id/loginPassword"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         />
     <TextView

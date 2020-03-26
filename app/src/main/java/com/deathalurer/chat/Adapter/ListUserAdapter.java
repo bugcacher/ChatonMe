@@ -2,6 +2,7 @@ package com.deathalurer.chat.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -17,10 +18,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.deathalurer.chat.CircleTransform;
 import com.deathalurer.chat.FriendList;
 import com.deathalurer.chat.R;
 import com.quickblox.chat.QBChatService;
+import com.quickblox.content.QBContent;
+import com.quickblox.content.model.QBFile;
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
@@ -52,11 +59,26 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ListUs
 
     @Override
     public void onBindViewHolder(@NonNull final ListUserViewHolder holder, final int position) {
-        //if (mList.get(position).getPhone()!= QBChatService.getInstance().getUser().getPhone())
-//        {
-                holder.name.setText(mList.get(position).getUser().getFullName());
-//            //Picasso.get().load(R.drawable.ic_person_black_24dp).transform(new CircleTransform()).into(holder.imageView);
-            holder.layout.setOnClickListener(new View.OnClickListener() {
+
+        holder.name.setText(mList.get(position).getUser().getFullName());
+
+        if(mList.get(position).getUser().getFileId()!=null) {
+            int profileID = mList.get(position).getUser().getFileId();
+            QBContent.getFile(profileID).performAsync(new QBEntityCallback<QBFile>() {
+                @Override
+                public void onSuccess(QBFile qbFile, Bundle bundle) {
+                    String url = qbFile.getPublicUrl();
+                    Glide.with(mContext).load(url).apply(RequestOptions.circleCropTransform()).
+                            placeholder(R.drawable.profile_circle).into(holder.imageView);
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                }
+            });
+        }
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(mList.get(position).isSelected())
@@ -74,10 +96,9 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ListUs
             });
         }
 
-    //}
-
     @Override
     public int getItemCount() {
+        Log.e("Adapter", "getItemCount: " +mList.size() );
         return mList.size();
     }
 

@@ -1,21 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="5dp"
     android:background="#28072E">
 
-   <androidx.recyclerview.widget.RecyclerView
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_margin="5dp"
-       android:id="@+id/friendListRecyclerView"
-       />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            app:shimmer_duration="1500"
+            android:layout_below="@id/toolBarAllChat"
+            android:visibility="invisible"
+            android:layout_marginTop="15dp"
+            android:id="@+id/shimmerLayout"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include layout="@layout/placeholder_layout"/>
+                <include layout="@layout/placeholder_layout"/>
+                <include layout="@layout/placeholder_layout"/>
+                <include layout="@layout/placeholder_layout"/>
+                <include layout="@layout/placeholder_layout"/>
+                <include layout="@layout/placeholder_layout"/>
+                <include layout="@layout/placeholder_layout"/>
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBarAllChat"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Chats"
+                    android:layout_centerVertical="true"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:id="@+id/viewProfile"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_account_circle_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="30dp"/>
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_below="@id/toolBarAllChat"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:id="@+id/friendListRecyclerView"
+            />
+    </RelativeLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/floatingAddChatUser"
-        android:backgroundTint="#200759"
-        android:tint="#A090B8"
+        app:rippleColor="#28072E"
+        android:backgroundTint="#0CE615"
+        app:borderWidth="0dp"
         android:src="@drawable/ic_add_black_24dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"

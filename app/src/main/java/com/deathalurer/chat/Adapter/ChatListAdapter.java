@@ -73,7 +73,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         else
             holder.unreadCount.setVisibility(View.GONE);
         //to load friend image
-        int friendId = mList.get(position).getRecipientId();
+        final int friendId = mList.get(position).getRecipientId();
         QBUsers.getUser(friendId).performAsync(new QBEntityCallback<QBUser>() {
             @Override
             public void onSuccess(QBUser qbUser, Bundle bundle) {
@@ -83,23 +83,19 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
                         @Override
                         public void onSuccess(QBFile qbFile, Bundle bundle) {
                             String url = qbFile.getPublicUrl();
-                            Glide.with(mcontext).load(url).apply(RequestOptions.circleCropTransform()).into(holder.userImage);
+                            Glide.with(mcontext).load(url).apply(RequestOptions.circleCropTransform()).
+                        placeholder(R.drawable.profile_circle).into(holder.userImage);
                         }
 
                         @Override
                         public void onError(QBResponseException e) {
-                            holder.userImage.setImageResource(R.drawable.ic_person_black_24dp);
                         }
                     });
-                }
-                else {
-                    holder.userImage.setImageResource(R.drawable.ic_person_black_24dp);
                 }
             }
 
             @Override
             public void onError(QBResponseException e) {
-                holder.userImage.setImageResource(R.drawable.ic_person_black_24dp);
             }
         });
 
@@ -108,6 +104,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             public void onClick(View view) {
                 Intent intent = new Intent(mcontext, ChatActivity.class);
                 intent.putExtra("QBDialog",mList.get(position));
+                intent.putExtra("FriendId",friendId);
                 Log.d("_______", "onClick: "+ mList.get(position).getUserId()+
                         mList.get(position).getName() + mList.get(position).getRecipientId()
                 +mList.get(position).getName());

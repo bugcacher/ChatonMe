@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.deathalurer.chat.Adapter.ListUserAdapter;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
@@ -42,16 +43,19 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
     private ArrayList<FriendList> userSelectedList = new ArrayList<>();
     ArrayList<String> phoneNumbers;
     private String groupName="";
+    private ShimmerFrameLayout shimmerFrameLayout;
     private static final String TAG ="UserList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+
+        shimmerFrameLayout = findViewById(R.id.shimmerLayoutUserList);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
                 == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
                 == PackageManager.PERMISSION_GRANTED) {
-            getUsers();
+            getAllContacts();
         } else {
             requestPermission();
         }
@@ -126,7 +130,7 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    getUsers();
+                    getAllContacts();
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
@@ -140,6 +144,7 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
     }
 
     private void getAllContacts() {
+        shimmerFrameLayout.startShimmer();
         phoneNumbers = new ArrayList<>();
         ContentResolver cr = getContentResolver();
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
@@ -171,6 +176,8 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
         if (cur != null) {
             cur.close();
         }
+
+        getUsers();
 
     }
 
@@ -234,7 +241,6 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
     }
 
     private void getUsers() {
-//        getAllContacts();
         QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
         pagedRequestBuilder.setPage(1);
         pagedRequestBuilder.setPerPage(50);
@@ -245,27 +251,39 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
                 recyclerView.setLayoutManager(new LinearLayoutManager(UserList.this));
                 recyclerView.setHasFixedSize(true);
                 ArrayList<FriendList> list = new ArrayList<>();
-                for (QBUser user: qbUsers){
-                    list.add(new FriendList(user,false));
+
+                for(QBUser user : qbUsers){
+                    if (phoneNumbers.contains(user.getPhone())){
+                        list.add(new FriendList(user,false));
+                    }
                 }
                 ListUserAdapter adapter = new ListUserAdapter(getBaseContext(), list, UserList.this);
                 recyclerView.setAdapter(adapter);
+                shimmerFrameLayout.startShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
             }
 
             @Override
             public void onError(QBResponseException e) {
-
+                shimmerFrameLayout.startShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+                Toast.makeText(getBaseContext(),"Something went wrong!",Toast.LENGTH_SHORT).show();
             }
         });
-//        for (int i = 0; i <phoneNumbers.size() ; i++) {
-//            Log.e("UserList","Number: "+ phoneNumbers.get(i)+"\n");
-//        }
+        for (int i = 0; i <phoneNumbers.size() ; i++) {
+            Log.e("UserList","Number: "+ phoneNumbers.get(i)+"\n");
+        }
 //        QBUsers.getUsersByPhoneNumbers(phoneNumbers, pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
 //            @Override
 //            public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
 //                recyclerView.setLayoutManager(new LinearLayoutManager(UserList.this));
 //                recyclerView.setHasFixedSize(true);
-//                ListUserAdapter adapter = new ListUserAdapter(getBaseContext(), qbUsers, UserList.this);
+//                ArrayList<FriendList> list = new ArrayList<>();
+//                for (QBUser user: qbUsers){
+//                    list.add(new FriendList(user,false));
+//                    Log.e(TAG, "onSuccess: "+user.getFullName() );
+//                }
+//                ListUserAdapter adapter = new ListUserAdapter(getBaseContext(), list, UserList.this);
 //                recyclerView.setAdapter(adapter);
 //                Toast.makeText(getBaseContext(),"size " + qbUsers.size(),Toast.LENGTH_SHORT).show();
 //                for (int i = 0; i < qbUsers.size(); i++) {

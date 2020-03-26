@@ -2,7 +2,9 @@ package com.deathalurer.chat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,10 +19,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.deathalurer.chat.Adapter.ChatListAdapter;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.BaseService;
@@ -43,18 +47,36 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 public class AllChats extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatListAdapter adapter;
+    private ShimmerFrameLayout shimmerFrameLayout;
     private FloatingActionButton floatingActionButton;
     CustomDialog dialog;
+    ImageView viewProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        Toolbar toolbar = findViewById(R.id.toolBarAllChat);
+        setSupportActionBar(toolbar);
+
         recyclerView = findViewById(R.id.friendListRecyclerView);
         floatingActionButton = findViewById(R.id.floatingAddChatUser);
+        shimmerFrameLayout = findViewById(R.id.shimmerLayout);
+        viewProfile = findViewById(R.id.viewProfile);
+
+        viewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(),"Profile",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getBaseContext(),Profile.class);
+                startActivity(intent);
+            }
+        });
 
         createSession();
         loadChats();
+
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +114,7 @@ public class AllChats extends AppCompatActivity {
     }
 
     private void loadChats() {
+
         QBRequestGetBuilder requestBuilder = new QBRequestGetBuilder();
         requestBuilder.setLimit(50);
         QBRestChatService.getChatDialogs(null,requestBuilder).performAsync(new QBEntityCallback<ArrayList<QBChatDialog>>() {
@@ -106,6 +129,8 @@ public class AllChats extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
                 adapter.notifyDataSetChanged();
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
             }
 
             @Override
@@ -116,8 +141,11 @@ public class AllChats extends AppCompatActivity {
     }
 
     private void createSession() {
-        dialog = new CustomDialog(AllChats.this);
-        dialog.showDialog();
+//        dialog = new CustomDialog(AllChats.this);
+//        dialog.showDialog();
+        shimmerFrameLayout.startShimmer();
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+
 
         String email = getIntent().getStringExtra("email");
         String pass = getIntent().getStringExtra("pass");
@@ -147,12 +175,15 @@ public class AllChats extends AppCompatActivity {
                 QBChatService.getInstance().login(user, new QBEntityCallback() {
                     @Override
                     public void onSuccess(Object o, Bundle bundle) {
-                        dialog.hideDialog();
+                        //dialog.hideDialog();
+
                     }
                     @Override
                     public void onError(QBResponseException e) {
                         Toast.makeText(getBaseContext(),"Error :"+e.getMessage(),Toast.LENGTH_SHORT).show();
-                        dialog.hideDialog();
+                        //dialog.hideDialog();
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
                     }
                 });
             }
@@ -171,22 +202,9 @@ public class AllChats extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_profile,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.profile :
-                Toast.makeText(getBaseContext(),"Profile",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getBaseContext(),Profile.class);
-                startActivity(intent);
-                break;
-        }
-        return false;
+    protected void onStop() {
+        super.onStop();
+        shimmerFrameLayout.stopShimmer();
+        shimmerFrameLayout.setVisibility(View.GONE);
     }
 }

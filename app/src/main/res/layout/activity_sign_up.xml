@@ -6,14 +6,22 @@
     android:background="#28072E"
     android:layout_height="match_parent"
     tools:context=".SignUp">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="140dp"
+        android:src="@drawable/send_icon"
+        android:id="@+id/imageIcon"/>
     <EditText
         android:layout_width="300dp"
         android:id="@+id/signupEmail"
+        android:layout_below="@id/imageIcon"
         android:paddingLeft="20dp"
         android:background="@drawable/custom_textbox"
         android:layout_height="40dp"
-        android:hint="Email"
-        android:layout_marginTop="100dp"
+        android:hint="Username"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         />
     <EditText
@@ -59,7 +67,7 @@
         android:id="@+id/signUpButton"
         android:background="@drawable/custombutton"
         android:layout_below="@id/signupPassword"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         />
     <Button
@@ -69,7 +77,7 @@
         android:background="@drawable/custombutton"
         android:id="@+id/signInButton"
         android:layout_below="@id/signin_text"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         />
     <TextView
@@ -78,7 +86,7 @@
         android:layout_below="@id/signUpButton"
         android:id="@+id/signin_text"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:text="Already have an account sign in below."/>
 
 </RelativeLayout>

@@ -21,7 +21,7 @@
             android:layout_height="50dp"
             android:id="@+id/listUserItemImage"
             android:layout_margin="5dp"
-            android:src="@drawable/boy_four"
+            android:src="@drawable/boy_two"
             />
     <ImageView
         android:layout_width="20dp"
