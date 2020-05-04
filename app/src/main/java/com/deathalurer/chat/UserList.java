@@ -253,7 +253,9 @@ public class UserList extends AppCompatActivity implements ListUserAdapter.AddUs
                 ArrayList<FriendList> list = new ArrayList<>();
 
                 for(QBUser user : qbUsers){
-                    if (phoneNumbers.contains(user.getPhone())){
+                    String str = user.getPhone();
+                    if (phoneNumbers.contains(str) || phoneNumbers.contains("+91"+str) ||
+                            phoneNumbers.contains("91"+str)){
                         list.add(new FriendList(user,false));
                     }
                 }

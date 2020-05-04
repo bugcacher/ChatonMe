@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:id="@+id/chooseAvatarTextView"
+        android:textSize="18dp"
+        android:layout_height="wrap_content"
+        android:text="Choose Avatar"/>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chooseAvatarTextView"
+        android:padding="10dp"
+        android:id="@+id/gridLayout"
+        android:layout_centerHorizontal="true"
+        android:columnCount="3"
+        android:rowCount="3"
+        >
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/boy_one"
+            android:src="@drawable/boy_one"/>
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/boy_four"
+            android:src="@drawable/boy_four"/>
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:id="@+id/boy_three"
+            android:layout_margin="10dp"
+            android:src="@drawable/boy_three"/>
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:id="@+id/boy_two"
+            android:layout_margin="10dp"
+            android:src="@drawable/boy_two"/>
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/girl_one"
+            android:src="@drawable/girl_one"/>
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/girl_two"
+            android:src="@drawable/girl_two"/>
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/girl_three"
+            android:src="@drawable/girl_three"/>
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/girl_four"
+            android:src="@drawable/girl_four"/>
+        <ImageView
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:id="@+id/boy_five"
+            android:layout_margin="10dp"
+            android:src="@drawable/boy_five"/>
+
+    </GridLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_below="@id/gridLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="15dp"
+        android:id="@+id/uploadImageTextView"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:layout_height="wrap_content"
+        android:text="Upload Image"/>
+
+</RelativeLayout>
